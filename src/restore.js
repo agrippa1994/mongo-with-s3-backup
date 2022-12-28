@@ -17,7 +17,7 @@ export default async function restore() {
       message: 'Which backup to you want to restore?',
       type: 'list',
       choices: files.map((f) => ({
-        name: [f.LastModified?.toLocaleString()].join(' '),
+        name: f.LastModified?.toLocaleString() ?? f.Key,
         value: f,
       })),
     });
@@ -32,6 +32,6 @@ export default async function restore() {
       fileStream.on('finish', resolve);
       command.Body.pipe(fileStream);
     });
-    await $`mongorestore --gzip --drop -vvvvv --archive=${filePath} ${config.mongoUri} `;
+    await $`mongorestore --gzip --drop -vvvvv --archive=${filePath} ${config.mongoUri}`;
   });
 }
