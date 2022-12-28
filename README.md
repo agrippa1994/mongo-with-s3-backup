@@ -23,10 +23,10 @@ docker-compose up --build -d
 
 Create a new backup using docker-compose:
 ```bash
-docker-compose exec backup mongo-backup-manager backup
+docker-compose exec backup manager backup
 ```
 
 Restore any backup using docker-compose, the latest backup is automatically preselected:
 ```bash
-docker-compose exec backup mongo-backup-manager restore
+docker-compose exec backup manager restore
 ```
