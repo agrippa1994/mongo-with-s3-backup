@@ -12,12 +12,12 @@ services:
     ports:
       - 127.0.0.1:27017:27017
     networks:
-      - internal
       - mongo
 
   backup:
     build: .
     restart: unless-stopped
+    network_mode: host
     environment:
       MONGO_URI: ${MONGO_URI}
       MONGO_PASSWORD: ${MONGO_PASSWORD}
@@ -27,13 +27,11 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       BACKUP_CRON: ${BACKUP_CRON}
-    networks:
-      - internal
+      BACKUPS_TO_KEEP: ${BACKUPS_TO_KEEP}
 
 volumes:
   mongo:
 
 networks:
-  internal:
   mongo:
     external: true

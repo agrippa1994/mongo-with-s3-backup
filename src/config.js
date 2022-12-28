@@ -12,12 +12,17 @@ const config = {
   awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
   awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   backupCron: process.env.BACKUP_CRON,
+  backupsToKeep: Number(process.env.BACKUPS_TO_KEEP),
 };
 
 for (const [key, value] of Object.entries(config)) {
   if (!value) {
     throw new Error(`${key} has not any configured value`);
   }
+}
+
+if (isNaN(config.backupsToKeep)) {
+  throw new Error('BACKUPS_TO_KEEP must be a number');
 }
 
 export default config;

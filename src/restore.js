@@ -1,24 +1,16 @@
-import { GetObjectCommand, paginateListObjectsV2 } from '@aws-sdk/client-s3';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { createWriteStream } from 'fs';
 import inquirer from 'inquirer';
 import { join } from 'path';
 import { $ } from 'zx';
+import { getAllFilesInS3 } from './bucket.js';
 import config from './config.js';
 import s3Client from './s3-client.js';
 import { withTemporaryDir } from './tmp.js';
 
 export default async function restore() {
   withTemporaryDir(async (name) => {
-    const files = [];
-    for await (const data of paginateListObjectsV2(
-      { client: s3Client },
-      { Bucket: config.s3Bucket, Prefix: config.s3Location }
-    )) {
-      files.push(...data.Contents.map((c) => c));
-    }
-
-    // sort descending
-    files.sort((f1, f2) => f2.LastModified?.getTime() - f1.LastModified?.getTime());
+    const files = await getAllFilesInS3();
 
     const dateToBackup = await inquirer.prompt({
       name: 'data',
