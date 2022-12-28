@@ -1,0 +1,39 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - mongo:/data/db
+    ports:
+      - 127.0.0.1:27017:27017
+    networks:
+      - internal
+      - mongo
+
+  backup:
+    build: .
+    restart: unless-stopped
+    environment:
+      MONGO_URI: ${MONGO_URI}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
+      S3_BUCKET: ${S3_BUCKET}
+      S3_LOCATION: ${S3_LOCATION}
+      AWS_REGION: ${AWS_REGION}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      BACKUP_CRON: ${BACKUP_CRON}
+    networks:
+      - internal
+
+volumes:
+  mongo:
+
+networks:
+  internal:
+  mongo:
+    external: true

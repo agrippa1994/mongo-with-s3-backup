@@ -1,0 +1,27 @@
+{
+  "name": "mongodb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "mongo-backup-manager": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node ./src/index.js",
+    "format": "prettier --write \"**/*.js\""
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.238.0",
+    "@aws-sdk/lib-storage": "^3.238.0",
+    "commander": "^9.4.1",
+    "cron": "^2.1.0",
+    "dotenv": "^16.0.3",
+    "inquirer": "^9.1.4",
+    "tmp": "^0.2.1",
+    "zx": "^7.1.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.1"
+  }
+}
