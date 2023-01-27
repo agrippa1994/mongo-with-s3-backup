@@ -15,6 +15,7 @@ services:
       - mongo
 
   backup:
+    image: harbor.leitold.solutions/library/mongodb-manager:latest
     build: .
     restart: unless-stopped
     network_mode: host
